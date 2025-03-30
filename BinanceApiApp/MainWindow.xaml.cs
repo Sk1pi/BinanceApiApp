@@ -10,6 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Binance.Spot;
+using BinanceApiApp.ViewModels;
 
 namespace BinanceApiApp
 {
@@ -18,38 +19,11 @@ namespace BinanceApiApp
     /// </summary>
     public partial class MainWindow : Window
     {
-        //public MainViewModel ViewModel { get; }
-
-        string serverTime = "server time not found";
-
         public MainWindow()
         {
             InitializeComponent();
-            //ViewModel = new MainViewModel();
-            //DataContext = ViewModel;
-            _ = LoadServerTime();
-        }
-
-        private async Task LoadServerTime()
-        {
-            try
-            {
-                Market market = new Market();
-                string serverTime = await market.CheckServerTime();
-
-                // Оновлюємо UI потік
-                Dispatcher.Invoke(() =>
-                {
-                    ServerTimeText.Text = $"Server Time: {serverTime}";
-                });
-            }
-            catch (Exception ex)
-            {
-                Dispatcher.Invoke(() =>
-                {
-                    ServerTimeText.Text = $"Помилка: {ex.Message}";
-                });
-            }
+            //DataContext = new MainViewModel();
+            DataContext = new SymbolPriceTickerViewModel();
         }
     }
 }
