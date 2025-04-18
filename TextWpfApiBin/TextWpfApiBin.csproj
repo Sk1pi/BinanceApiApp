@@ -10,8 +10,9 @@
 
   <ItemGroup>
     <PackageReference Include="Binance.Spot" Version="4.1.0" />
+    <PackageReference Include="LiveCharts" Version="0.9.7" />
     <PackageReference Include="LiveCharts.Wpf" Version="0.9.7" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="9.0.3" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="10.0.0-preview.2.25163.2" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 

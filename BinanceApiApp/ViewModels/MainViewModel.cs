@@ -1,6 +1,7 @@
 ﻿using Binance.Spot;
 using Binance.Spot.Models;
 using BinanceApiApp.Models;
+using BinanceApiApp.ViewModels.Base;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Net.Http;
@@ -13,51 +14,35 @@ using System.Windows.Input;
 
 namespace BinanceApiApp.ViewModels
 {
-    public class MainViewModel: INotifyPropertyChanged
+    public class MainViewModel: BaseViewModel
     {
-        private readonly Market _market;
-        private readonly HttpClient _httpClient;
-        public ObservableCollection<KlineData> Klines { get; } = new();
-        public ICommand LoadDataCommand { get; }
+        public CandlestickViewModel Candlestick { get; }
+        public SymbolPriceTickerViewModel PriceTicker { get; }
+        public SymbolTickerStreamViewModel _liveTicker;
+        public SymbolTickerStreamViewModel LiveTicker
+        {
+            get => _liveTicker;
+            set
+            {
+                _liveTicker = value;
+                OnPropertyChanged(); // Сповіщення для WPF
+            }
+        }
+
+        public SymbolTickerStreamViewModel SymbolTicker { get; } = new();
+        public ICommand RefreshCommand { get; }
 
         public MainViewModel()
         {
-            _httpClient = new HttpClient();
-            _market = new Market(_httpClient);
-            LoadDataCommand = new RelayCommand(async () => await LoadKlineData());
-            LoadDataCommand.Execute(null);
+            Candlestick = new CandlestickViewModel();
+            LiveTicker = new SymbolTickerStreamViewModel();
+            PriceTicker = new SymbolPriceTickerViewModel();
+
+            //RefreshCommand = new RelayCommand(() =>
+            //{
+            //    PriceTicker.LoadPricesCommand.Execute(null);
+            //    Candlestick.RestartStream();
+            //});
         }
-
-        private async Task LoadKlineData()
-        {
-            try
-            {
-                Klines.Clear();
-                var response = await _market.KlineCandlestickData("BNBUSDT", Interval.ONE_MINUTE);
-                var json = JArray.Parse(response);
-
-                foreach (var kline in json)
-                {
-                    Klines.Add(new KlineData
-                    {
-                        OpenTime = DateTimeOffset.FromUnixTimeMilliseconds(kline[0].Value<long>()).DateTime,
-                        Open = kline[1].Value<decimal>(),
-                        High = kline[2].Value<decimal>(),
-                        Low = kline[3].Value<decimal>(),
-                        Close = kline[4].Value<decimal>(),
-                        Volume = kline[5].Value<decimal>(),
-                        Price = kline[4].Value<decimal>()
-                    });
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine($"Помилка: {ex.Message}");
-            }
-        }
-
-        public event PropertyChangedEventHandler? PropertyChanged;
-        protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
-            => PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

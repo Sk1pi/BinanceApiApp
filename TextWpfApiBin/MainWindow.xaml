@@ -1,0 +1,21 @@
+﻿<Window x:Class="TextWpfApiBin.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:lvc="clr-namespace:LiveCharts.Wpf;assembly=LiveCharts.Wpf"    
+        xmlns:local="clr-namespace:TextWpfApiBin" xmlns:local1="clr-namespace:TextWpfApiBin.SymbolTickerStream"
+        mc:Ignorable="d"
+        Title="Binance Candlestick Chart" Height="600" Width="800">
+
+    <Grid>
+        <DataGrid ItemsSource="{Binding Prices}" AutoGenerateColumns="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="Пара" Binding="{Binding Symbol}" Width="100"/>
+                <DataGridTextColumn Header="Ціна" Binding="{Binding Price, StringFormat=N4}" Width="100"/>
+                <DataGridTextColumn Header="Об'єм" Binding="{Binding Volume, StringFormat=N2}" Width="100"/>
+                <DataGridTextColumn Header="Зміна 24h" Binding="{Binding PriceChangePercent, StringFormat=N2}" Width="100"/>
+            </DataGrid.Columns>
+        </DataGrid>
+    </Grid>
+</Window>

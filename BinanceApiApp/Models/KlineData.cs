@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LiveCharts.Defaults;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,5 +16,16 @@ namespace BinanceApiApp.Models
         public decimal Close { get; set; }
         public decimal Volume { get; set; }
         public decimal Price { get; set; }
+
+        public OhlcPoint ToOhlcPoint()
+        {
+            return new OhlcPoint
+            {
+                Open = (double)Open,
+                High = (double)High,
+                Low = (double)Low,
+                Close = (double)Close,
+            };
+        }
     }
 }
