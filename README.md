@@ -1,14 +1,13 @@
-## Description
+# Description
 BinanceApiApp is a desktop application implemented using WPF and MVVM architecture. It connects to the Binance API to retrieve real-time cryptocurrency information. WebSocket is used to subscribe to current price changes, enabling instant UI updates. Asynchronous programming with async/await ensures smooth performance without blocking the user interface.
 
-## Features
+# Features
 - Real-time cryptocurrency price tracking using Binance WebSocket
 - MVVM architecture for clean separation of concerns
 - RelayCommand for implementing commands between View and ViewModel
 - Asynchronous logic for efficient data processing
 - Modular structure with Models, Services, and ViewModels
 
-## Technologies
 - WPF
 - MVVM
 - Binance API
